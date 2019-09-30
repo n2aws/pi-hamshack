@@ -1,0 +1,14 @@
+---
+
+- name: Setup Raspberry Pi for ham radio 
+  become: true
+  hosts: pishack 
+
+
+  vars:
+    install_wsjtx: true
+
+    wsjtx_version: 2.1.0 
+
+  roles:
+    - pishack 
