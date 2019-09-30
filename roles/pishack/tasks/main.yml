@@ -14,6 +14,10 @@
     deb: https://sourceforge.net/projects/wsjt/files/wsjtx-{{ wsjtx_version }}/wsjtx_{{ wsjtx_version }}_armhf.deb
   when: install_wsjtx
 
+- name: Winlink
+  include_tasks: winlink.yml
+  when: install_winlink
+
 - name: Remove useless packages from the cache
   apt:
     autoclean: yes

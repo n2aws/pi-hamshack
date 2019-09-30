@@ -1,0 +1,36 @@
+---
+# tasks file for pat-winlink
+- name: Add the winlink user
+  user:
+    name: "{{ winlink_user }}" 
+    comment: PAT Winlink
+    uid: 1040
+
+- name: Install pat winlink {{ winlink_version }} from URL
+  apt:
+    deb: https://github.com/la5nta/pat/releases/download/v{{ winlink_version }}/pat_{{ winlink_version }}_linux_armhf.deb
+
+
+
+- name: Install winlink configuration file 
+  template:
+    src: winlink-config.json.j2 
+    dest: /home/{{ winlink_user }}/.wl2k/config.json
+    owner: "{{ winlink_user }}" 
+    group: "{{ winlink_user }}"
+    mode: '0600'
+
+- name: Add crontab for winlink user 
+  cron:
+    name: pat connect 
+    minute: "*/15"
+    hour: "*"
+    user: "{{ winlink_user }}"
+    job: "pat connect telnet"
+    cron_file: ansible-pat_connect 
+
+- name: Enable winlink service
+  service:
+    name: pat@{{ winlink_user }} 
+    enabled: yes
+    state: started
