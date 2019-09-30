@@ -4,6 +4,11 @@
     update_cache: yes
     cache_valid_time: 3600
 
+- name: Install JS8Call {{ js8call_version }} from URL
+  apt:
+    deb: http://files.js8call.com/{{ js8call_version }}/js8call_{{ js8call_version }}_armhf.deb
+  when: install_js8call
+
 - name: Install wsjt-x {{ wsjtx_version }} from a URL
   apt:
     deb: https://sourceforge.net/projects/wsjt/files/wsjtx-{{ wsjtx_version }}/wsjtx_{{ wsjtx_version }}_armhf.deb
